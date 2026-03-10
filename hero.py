@@ -1,10 +1,12 @@
 from ability import Ability
 from armor import Armor
+from weapon import Weapon
 
 
 class Hero:
     def __init__(self, name, starting_health=100):
-        """ Instance properties:
+        """
+        Instance properties:
             abilities: List
             armors: List
             name: String
@@ -21,6 +23,10 @@ class Hero:
         """Add ability to abilities list."""
         self.abilities.append(ability)
 
+    def add_weapon(self, weapon):
+        """Add weapon to self.abilities."""
+        self.abilities.append(weapon)
+
     def attack(self):
         """
         Calculate the total damage from all ability attacks.
@@ -33,8 +39,7 @@ class Hero:
 
     def add_armor(self, armor):
         """
-        Add armor to self.armors
-        armor: Armor Object
+        Add armor to self.armors.
         """
         self.armors.append(armor)
 
@@ -65,7 +70,7 @@ class Hero:
 
     def is_alive(self):
         """
-        Return True or False depending on whether the hero is alive or not.
+        Return True if hero is alive, otherwise False.
         """
         return self.current_health > 0
 
@@ -78,8 +83,11 @@ class Hero:
             return
 
         while self.is_alive() and opponent.is_alive():
-            opponent.take_damage(self.attack())
-            self.take_damage(opponent.attack())
+            self_damage = self.attack()
+            opponent_damage = opponent.attack()
+
+            opponent.take_damage(self_damage)
+            self.take_damage(opponent_damage)
 
             if self.is_alive() and not opponent.is_alive():
                 print(f"{self.name} won!")
@@ -93,46 +101,7 @@ class Hero:
 
 
 if __name__ == "__main__":
-    ability = Ability("Great Debugging", 50)
-    another_ability = Ability("Smarty Pants", 90)
-    hero = Hero("Grace Hopper", 200)
-    hero.add_ability(ability)
-    hero.add_ability(another_ability)
+    hero = Hero("Wonder Woman")
+    weapon = Weapon("Lasso of Truth", 90)
+    hero.add_weapon(weapon)
     print(hero.attack())
-
-    print()
-
-    shield = Armor("Shield", 50)
-    force_field = Armor("Force Field", 20)
-    hero.add_armor(shield)
-    hero.add_armor(force_field)
-    print(hero.defend())
-
-    print()
-
-    test_hero = Hero("Grace Hopper", 200)
-    test_shield = Armor("Shield", 50)
-    test_hero.add_armor(test_shield)
-    test_hero.take_damage(50)
-    print(test_hero.current_health)
-
-    print(test_hero.is_alive())
-    test_hero.take_damage(15000)
-    print(test_hero.is_alive())
-
-    print()
-
-    hero1 = Hero("Wonder Woman")
-    hero2 = Hero("Dumbledore")
-
-    ability1 = Ability("Super Speed", 300)
-    ability2 = Ability("Super Eyes", 130)
-    ability3 = Ability("Wizard Wand", 80)
-    ability4 = Ability("Wizard Beard", 20)
-
-    hero1.add_ability(ability1)
-    hero1.add_ability(ability2)
-    hero2.add_ability(ability3)
-    hero2.add_ability(ability4)
-
-    hero1.fight(hero2)
