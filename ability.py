@@ -11,7 +11,7 @@ class Ability:
         self.max_damage = max_damage
 
     def attack(self):
-        """Return a value between 0 and self.max_damage."""
+        """Return a random value between 0 and self.max_damage."""
         return random.randint(0, self.max_damage)
 
 
